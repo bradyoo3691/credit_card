@@ -1,0 +1,38 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.brad.cardwidget'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.brad.cardwidget'
+        minSdk 26
+        targetSdk 34
+        versionCode (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+        versionName "1.0." + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
+    }
+
+    signingConfigs {
+        release {
+            // 개인용 고정 서명키: 업데이트 설치 시 데이터 유지용
+            storeFile file('release.jks')
+            storePassword 'cardwidget'
+            keyAlias 'cardwidget'
+            keyPassword 'cardwidget'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
